@@ -3,6 +3,7 @@ module Lib
     ) where
 
 import Data.Bits
+import System.Random
 
 evaluate :: Word -> Int
 evaluate x = popCount x
@@ -16,5 +17,7 @@ eval (x, e) = e
 
 
 someFunc :: IO ()
-someFunc = print $ uniformR (1, 6)
+someFunc = do
+    rand <- (getStdRandom $ randomR (0,1) :: IO Double)
+    print rand
 
