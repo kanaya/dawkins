@@ -75,13 +75,9 @@ int main() {
 			*rs[i] = *rs[0];
 			rs[i]->mutation(engine);
 		}
-		#if 0
-		for (auto r: rs) {
-			int v = r->value();
-			std::cout << v << ": " << *r << std::endl;
-		}
-		std::cout << "---" << std::endl;
-		#endif
+	}
+	for (auto r: rs) {
+		delete r;
 	}
 	return 0;
 }
