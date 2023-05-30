@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <numeric>
 #include <random>
 #include <vector>
@@ -58,22 +59,20 @@ std::ostream &operator <<(std::ostream &os, const random_string &rs) {
 int main() {
 	const int n = 100;
 	std::random_device seed_gen;
-	std::vector<random_string *> rs{n};
+	using random_string_ptr = std::shared_ptr<random_string>;
+	std::vector<random_string_ptr> rs{n};
 	for (auto &r: rs) {
 		std::default_random_engine engine{seed_gen()};
-		r = new random_string{engine};
+		r = std::make_shared<random_string>(engine);
 	}
 	for (int gen = 0; gen < 100; ++gen) {
-		std::sort(rs.begin(), rs.end(), [](random_string *x, random_string *y) { return x->value() < y->value(); });
+		std::sort(rs.begin(), rs.end(), [](auto x, auto y) { return x->value() < y->value(); });
 		std::cout << "[" << rs[0]->value() << "]" << std::endl;
 		for (int i = 1; i < n; ++i) {
 			std::default_random_engine engine{seed_gen()};
 			*rs[i] = *rs[0];
 			rs[i]->mutation(engine);
 		}
-	}
-	for (auto r: rs) {
-		delete r;
 	}
 	return 0;
 }
