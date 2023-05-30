@@ -42,10 +42,6 @@ class random_string {
 		evaluate();
 	}
 
-	bool operator <(const random_string &rs) const {
-		return v < rs.value();
-	}
-
 	std::ostream &put(std::ostream &os) const {
 		for (int i = 0; i < len_string - 1; ++i) {
 			os << cs[i] << ' ';
